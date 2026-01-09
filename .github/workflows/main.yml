@@ -1,0 +1,41 @@
+name: CI Pipeline
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with: 
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit Tests
+        run: pnpm run test:unit
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: E2E Tests
+        run: pnpm exec playwright test
+
+      - name: Build Project
+        run: pnpm run build
+
+      - name: Lighthouse Check
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          startServerCommand: pnpm run preview
+          urls: 'http://localhost:4173/'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: './.lighthouserc.json'
