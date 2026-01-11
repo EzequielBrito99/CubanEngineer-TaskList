@@ -18,7 +18,8 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
     "validate": "pnpm run lint && pnpm run test && pnpm run build",
     "storybook": "storybook dev -p 9009",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lhci": "npx lhci autorun"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.11",
