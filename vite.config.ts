@@ -5,10 +5,17 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
-const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',
@@ -16,17 +23,27 @@ export default defineConfig({
     exclude: ['tests/e2e/**', 'node_modules/**', 'dist/**'],
     projects: [
       {
+        resolve: {
+          alias: {
+            "@": path.resolve(__dirname, "./src"),
+          },
+        },
         test: {
+          globals: true,
           name: 'unit',
-          include: ['tests/unit/**/*.{test,spec}.{ts,tsx}'],
+          include: [
+            'tests/unit/**/*.{test,spec}.{ts,tsx}',
+            'src/**/*.{test}.{ts,tsx}'
+          ],
           environment: 'jsdom',
+          setupFiles: ['./tests/unit/setupTests.ts'],
         }
       },
       {
         extends: true,
         plugins: [
           storybookTest({
-            configDir: path.join(dirname, '.storybook')
+            configDir: path.join(__dirname, '.storybook')
           })],
         test: {
           name: 'storybook',
