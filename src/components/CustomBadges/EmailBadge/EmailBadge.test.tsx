@@ -1,4 +1,4 @@
-import { EmailBadge } from '@/components/CustomBadges/EmailBudge/EmailBadge';
+import { EmailBadge } from '@/components/CustomBadges/EmailBadge/EmailBadge';
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 
