@@ -30,6 +30,8 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -54,12 +56,17 @@
     --entity-link: 214 235 255;         /* #D6EBFF */
     --entity-link-dark: 0 127 255;      /* #007FFF */
 
+    --primary: #0D55CF;
+    --primary-foreground: oklch(0.984 0.003 247.858);
+
+    --secondary: #EAF0F5;
+    --secondary-foreground: #04142F;
+    
     --radius: 0.625rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.129 0.042 264.695);
-    --primary: oklch(0.208 0.042 265.755);
-    --primary-foreground: oklch(0.984 0.003 247.858);
-    --border: oklch(0.929 0.013 255.508);
+
+    --border: #FAFBFB;
     --input: oklch(0.929 0.013 255.508);
     --ring: oklch(0.704 0.04 256.788);
   }
