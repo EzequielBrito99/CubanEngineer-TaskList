@@ -21,6 +21,21 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './tests/unit/setupTests.ts',
     exclude: ['tests/e2e/**', 'node_modules/**', 'dist/**'],
+    coverage: {
+      provider: 'v8',
+      include: [
+        'src/**/*.{ts,tsx}'
+      ],
+      exclude: [
+        'src/main.tsx',
+        'src/App.tsx',
+        'src/vite-env.d.ts',
+        '**/*.css',
+        '**/*.d.ts',
+        'src/components/CustomBadges/index.ts',
+        'src/components/CustomBadges/types.ts',
+      ],
+    },
     projects: [
       {
         resolve: {
