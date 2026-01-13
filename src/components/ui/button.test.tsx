@@ -16,16 +16,29 @@ describe('Button UI Component', () => {
     expect(button).toHaveClass('inline-flex');
   });
 
+  it('renders as a slot when asChild is true', () => {
+    render(<Button asChild><a href="#">Link</a></Button>);
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    expect(screen.getByRole('link')).toBeInTheDocument();
+  });
+
   it('should apply different variant classes', () => {
-    render(<Button variant="destructive">Delete</Button>);
-    const button = screen.getByRole('button', { name: /delete/i });
-    expect(button).toHaveClass('bg-destructive');
+    render(<Button variant="secondary">Cancel</Button>);
+    const button = screen.getByRole('button', { name: /cancel/i });
+    expect(button).toHaveClass('bg-secondary');
   });
 
   it('should apply custom classNames', () => {
     render(<Button className="custom-test-class">Custom</Button>);
     const button = screen.getByRole('button', { name: /custom/i });
     expect(button).toHaveClass('custom-test-class');
+  });
+
+  it('should cover all default branch assignments', () => {
+    const { rerender } = render(<Button>Default</Button>);
+    expect(screen.getByRole('button')).toHaveClass('bg-primary');
+    rerender(<Button size="sm">Small</Button>);
+    expect(screen.getByRole('button')).toHaveClass('h-8');
   });
 
   it('should render as a different element when asChild is true', () => {
