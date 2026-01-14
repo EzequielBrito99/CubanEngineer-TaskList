@@ -92,3 +92,13 @@
     @apply text-current no-underline;
   }
 }
+
+@layer utilities {
+  .compact-hide {
+    @apply max-[1230px]:hidden;
+  }
+
+  .not-compact-hide {
+    @apply min-[1231px]:hidden;
+  }
+}
