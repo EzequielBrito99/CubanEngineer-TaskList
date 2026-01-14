@@ -16,6 +16,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: [
+      '@radix-ui/react-checkbox',
+      'lucide-react',
+      'react-icons/fi',
+      'react-icons/vsc'
+    ],
+  },
   test: {
     globals: true,
     environment: 'jsdom',
