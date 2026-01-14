@@ -83,7 +83,7 @@ export const TaskForm = ({
           autoFocus
         />
 
-        <Avatar className={cn('h-6 w-6 bg-secondary', !text.trim() ? 'opacity-40' : 'cursor-pointer')} role="button">
+        <Avatar className={cn('h-6 w-6 bg-secondary', !text.trim() ? 'opacity-40' : 'cursor-pointer')} role="button" data-testid='user-avatar'>
           <AvatarImage src={userImage} alt="User" />
           <AvatarFallback>{userFallback}</AvatarFallback>
         </Avatar>
