@@ -21,10 +21,17 @@ export class TaskPage {
   }
 
   async editTask(oldText: string, newText: string) {
-    await this.page.getByText(oldText.split(' ')[0]).click();
+    await this.page.getByText(oldText.split(' ')[0]).first().click();
     const textarea = this.page.locator('textarea');
     await textarea.fill(newText);
     await this.page.getByRole('button', { name: /save|ok/i }).click();
+  }
+
+  async deleteTask(text: string) {
+    const firstWord = text.split(' ')[0];
+    const task = this.page.getByTestId('task-item').filter({ hasText: firstWord }).first();
+    await task.click();
+    await this.page.getByRole('button', { name: /delete/i }).click();
   }
 
   async expectTaskVisible(text: string) {
@@ -37,5 +44,11 @@ export class TaskPage {
     if (!normalizedActual.includes(cleanExpected.split(' ')[0])) {
        throw new Error(`Texto no coincide. Esperado: ${text}, Recibido: ${normalizedActual}`);
     }
+  }
+  
+  async expectTaskDeleted(text: string) {
+    const firstWord = text.split(' ')[0];
+    const task = this.page.getByTestId('task-item').filter({ hasText: firstWord });
+    await expect(task).not.toBeVisible();
   }
 }

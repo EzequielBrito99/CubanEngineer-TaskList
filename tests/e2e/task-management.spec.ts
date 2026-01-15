@@ -24,4 +24,12 @@ test.describe('Task Management', () => {
     await page.reload();    
     await taskPage.expectTaskVisible(taskText);
   });
+
+  test('user can delete an existing task', async () => {
+    const taskText = 'Task to be deleted';
+    await taskPage.createTask(taskText);
+    await taskPage.expectTaskVisible(taskText);
+    await taskPage.deleteTask(taskText);
+    await taskPage.expectTaskDeleted(taskText);
+  });
 });
