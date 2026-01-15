@@ -40,6 +40,18 @@ describe('TaskList Unit Tests', () => {
     fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
     expect(screen.getByText('Updated')).toBeInTheDocument();
   });
+
+  it('should delete a task and remove it from localStorage', () => {
+    const mockTasks = [{ id: '1', text: 'Task to delete' }];
+    localStorage.setItem('tasks', JSON.stringify(mockTasks));
+    render(<TaskList />);
+    fireEvent.click(screen.getByText('Task to delete'));
+    const deleteBtn = screen.getByRole('button', { name: /delete/i });
+    fireEvent.click(deleteBtn);
+    expect(screen.queryByText('Task to delete')).not.toBeInTheDocument();
+    const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    expect(savedTasks).toHaveLength(0);
+  });
   
   it('should prevent edit mode when clicking checkbox due to stopPropagation', () => {
     localStorage.setItem('tasks', JSON.stringify([{ id: '1', text: 'Stop Prop' }]));

@@ -26,7 +26,10 @@ type Story = StoryObj<typeof TaskList>;
  * Note: If you have tasks in your browser's localStorage, they will appear here.
  */
 export const Default: Story = {
-  render: () => <TaskList />,
+  render: () => {
+    localStorage.removeItem("tasks");
+    return <TaskList />;
+  },
 };
 
 /**
@@ -38,7 +41,7 @@ export const WithTasks: Story = {
     const mockTasks = [
       { id: "1", text: "Welcome to the Task List! 🚀" },
       { id: "2", text: "You can mention @user, use #hashtags, emails@gmail.com or www.links.com" },
-      { id: "3", text: "Click on me to edit this task." },
+      { id: "3", text: "Click on me to edit or delete this task." },
     ];
     localStorage.setItem("tasks", JSON.stringify(mockTasks));
     
@@ -52,7 +55,7 @@ export const WithTasks: Story = {
 export const CompactContainer: Story = {
   decorators: [
     (Story) => (
-      <div className="max-w-100 mx-auto border-x p-4 bg-white">
+      <div className="max-w-100 mx-auto border-x p-4 bg-white shadow-sm">
         <Story />
       </div>
     ),

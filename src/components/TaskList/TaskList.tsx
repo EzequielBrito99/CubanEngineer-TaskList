@@ -32,6 +32,11 @@ export const TaskList = () => {
     setEditingId(null);
   };
 
+  const deleteTask = (id: string) => {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+    setEditingId(null);
+  };
+
   const handleStartCreate = () => {
     setIsCreating(true);
     setEditingId(null);
@@ -45,7 +50,7 @@ export const TaskList = () => {
   const handleCancel = () => setEditingId(null)
 
   return (
-    <div className="max-w-2xl mx-auto p-4 flex flex-col gap-2">
+    <div className="max-w-3xl mx-auto p-4 flex flex-col gap-2">
       {isCreating ? (
         <TaskForm onSave={addTask} onCancel={() => setIsCreating(false)} />
       ) : (
@@ -66,6 +71,7 @@ export const TaskList = () => {
                 initialValue={task.text}
                 onSave={(val) => updateTask(task.id, val)}
                 onCancel={handleCancel}
+                onDelete={() => deleteTask(task.id)}
               />
             ) : (
               <div
