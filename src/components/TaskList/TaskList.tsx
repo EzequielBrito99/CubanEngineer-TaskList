@@ -69,6 +69,7 @@ export const TaskList = () => {
               />
             ) : (
               <div
+                data-testid="task-item"
                 onClick={() => handleStartEdit(task.id)}
                 className="flex gap-3 p-3 border rounded-sm bg-card hover:bg-gray-200 shadow-sm transition-all cursor-pointer items-center"
               >
