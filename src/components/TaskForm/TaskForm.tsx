@@ -2,7 +2,7 @@ import React from "react"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { FiCalendar, FiMaximize2, FiPlus, FiPlusSquare, FiSave, FiUnlock } from "react-icons/fi"
+import { FiCalendar, FiMaximize2, FiPlus, FiPlusSquare, FiSave, FiTrash2, FiUnlock } from "react-icons/fi"
 import { IconButton } from "@/components/ui/icon-button"
 import { MdOutlineLightMode } from "react-icons/md"
 import { Bs0Circle } from "react-icons/bs"
@@ -15,6 +15,7 @@ interface TaskFormProps {
   userFallback?: string
   onSave: (value: string) => void
   onCancel: () => void
+  onDelete?: () => void
   className?: string
   placeholder?: string
 }
@@ -29,14 +30,15 @@ const actionButtons = [
 /**
  * TaskForm component for creating or editing tasks.
  * @remarks
- * Combines user context (Avatar) with input actions (Save/Cancel).
+ * Combines user context (Avatar) with input actions (Save/Cancel/Delete).
  */
 export const TaskForm = ({
   initialValue = "",
-  userImage='https://github.com/shadcn.png',
+  userImage = 'https://github.com/shadcn.png',
   userFallback = "U",
   onSave,
   onCancel,
+  onDelete,
   className = "",
   placeholder = "Write a task..."
 }: TaskFormProps) => {
@@ -116,6 +118,19 @@ export const TaskForm = ({
                 </span>
               </IconButton>
             ))}
+
+            {isEditing && onDelete && (
+              <IconButton
+                variant="outline"
+                size={"sm"}
+                icon={FiTrash2}
+                onClick={onDelete}
+              >
+                <span className="max-[1230px]:hidden">
+                  Delete
+                </span>
+              </IconButton>
+            )}
           </div>
         </div>
 

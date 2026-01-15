@@ -12,6 +12,7 @@ const meta: Meta<typeof TaskForm> = {
   argTypes: {
     onSave: { action: "onSave" },
     onCancel: { action: "onCancel" },
+    onDelete: { action: "onDelete" },
   },
 };
 
@@ -35,5 +36,17 @@ export const EditMode: Story = {
   args: {
     initialValue: "Update this task",
     userImage: "https://github.com/shadcn.png",
+  },
+};
+
+/**
+ * Delete option: Shows the destructive action button.
+ * Only visible when initialValue is present and onDelete is provided.
+ */
+export const WithDeleteAction: Story = {
+  args: {
+    initialValue: "This task can be deleted",
+    userImage: "https://github.com/shadcn.png",
+    onDelete: () => console.log("Delete clicked"),
   },
 };

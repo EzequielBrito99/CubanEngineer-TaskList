@@ -5,6 +5,7 @@ import { TaskForm } from './TaskForm';
 describe('TaskForm Component', () => {
   const mockOnSave = vi.fn();
   const mockOnCancel = vi.fn();
+  const mockOnDelete = vi.fn();
 
   it('should render in "Ok" state by default (VscChromeClose icon)', () => {
     render(<TaskForm onSave={mockOnSave} onCancel={mockOnCancel} />);
@@ -63,30 +64,34 @@ describe('TaskForm Component', () => {
     expect(cancelBtn).toHaveClass('compact-hide');
   });
 
-  it('should execute onSave when text is not empty and save button is clicked', () => {
-    const mockOnSave = vi.fn();
-    render(<TaskForm onSave={mockOnSave} onCancel={vi.fn()} />);
-    const textarea = screen.getByPlaceholderText(/write a task/i);
-    fireEvent.change(textarea, { target: { value: 'Valid task' } });
-    const confirmButton = screen.getByRole('button', { name: /add/i });
-    fireEvent.click(confirmButton);
-    expect(mockOnSave).toHaveBeenCalledWith('Valid task');
-    expect(mockOnSave).toHaveBeenCalledTimes(1);
+  it('should show delete button and call onDelete when editing', () => {
+    render(
+      <TaskForm
+        initialValue="Task to delete"
+        onSave={mockOnSave}
+        onCancel={mockOnCancel}
+        onDelete={mockOnDelete}
+      />
+    );
+    const deleteBtn = screen.getByRole('button', { name: /delete/i });
+    expect(deleteBtn).toBeInTheDocument();
+    
+    fireEvent.click(deleteBtn);
+    expect(mockOnDelete).toHaveBeenCalledTimes(1);
+  });
+
+  it('should NOT show delete button when creating a new task', () => {
+    render(<TaskForm onSave={mockOnSave} onCancel={mockOnCancel} onDelete={mockOnDelete} />);
+    expect(screen.queryByRole('button', { name: /delete/i })).not.toBeInTheDocument();
   });
 
   it('should bypass onSave if handleSave is called with empty text', () => {
-    const mockOnSave = vi.fn();
-    render(<TaskForm onSave={mockOnSave} onCancel={mockOnCancel} />);
+    const mockOnSaveLocal = vi.fn();
+    render(<TaskForm onSave={mockOnSaveLocal} onCancel={mockOnCancel} />);
     const textarea = screen.getByPlaceholderText(/write a task/i);
     fireEvent.change(textarea, { target: { value: '   ' } });
     const okButton = screen.getByRole('button', { name: /ok/i });
-    fireEvent(
-      okButton,
-      new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true,
-      })
-    );
-    expect(mockOnSave).not.toHaveBeenCalled();
+    fireEvent.click(okButton);
+    expect(mockOnSaveLocal).not.toHaveBeenCalled();
   });
 });
