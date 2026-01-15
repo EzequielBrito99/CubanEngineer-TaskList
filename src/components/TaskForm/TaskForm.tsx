@@ -33,7 +33,7 @@ const actionButtons = [
  */
 export const TaskForm = ({
   initialValue = "",
-  userImage,
+  userImage='https://github.com/shadcn.png',
   userFallback = "U",
   onSave,
   onCancel,
