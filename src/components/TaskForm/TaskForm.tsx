@@ -7,6 +7,7 @@ import { IconButton } from "@/components/ui/icon-button"
 import { MdOutlineLightMode } from "react-icons/md"
 import { Bs0Circle } from "react-icons/bs"
 import { VscChromeClose } from "react-icons/vsc"
+import { ColorEditor } from "@/components/ColorEditor/ColorEditor"
 
 interface TaskFormProps {
   initialValue?: string
@@ -42,7 +43,8 @@ export const TaskForm = ({
   const [text, setText] = React.useState(initialValue)
 
   const handleSave = () => {
-    if (text.trim()) onSave(text.trim());
+    if (text.trim()) onSave(text.trim())
+    else onCancel();
   }
 
   const isEditing = initialValue.length > 0;
@@ -52,7 +54,7 @@ export const TaskForm = ({
     if (contentWasEdited && text.trim().length > 0) {
       return isEditing ? (
         <>
-          <FiSave className="w-4 h-4 not-compact-hide"/>
+          <FiSave className="w-4 h-4 not-compact-hide" />
           <span className="compact-hide">Save</span>
         </>
       ) : (
@@ -75,12 +77,11 @@ export const TaskForm = ({
       <div className="flex gap-3 items-start border border-slate-200 p-2">
         <FiPlusSquare className="text-blue-500 w-5 h-5" />
 
-        <textarea
-          className="flex-1 bg-transparent border-none focus:outline-0 focus:ring-0 resize-none text-sm placeholder:text-muted-foreground"
+        <ColorEditor
+          text={text}
           placeholder={placeholder}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          autoFocus
+          onChange={(v) => setText(v)}
+          className="flex-1 bg-transparent border-none focus:outline-0 focus:ring-0 resize-none text-sm placeholder:text-muted-foreground"
         />
 
         <Avatar className={cn('h-6 w-6 bg-secondary', !text.trim() ? 'opacity-40' : 'cursor-pointer')} role="button" data-testid='user-avatar'>
