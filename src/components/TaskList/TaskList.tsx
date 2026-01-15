@@ -32,6 +32,16 @@ export const TaskList = () => {
     setEditingId(null);
   };
 
+  const handleStartCreate = () => {
+    setIsCreating(true);
+    setEditingId(null);
+  };
+
+  const handleStartEdit = (id: string) => {
+    setEditingId(id);
+    setIsCreating(false);
+  };
+
   const handleCancel = () => setEditingId(null)
 
   return (
@@ -40,7 +50,7 @@ export const TaskList = () => {
         <TaskForm onSave={addTask} onCancel={() => setIsCreating(false)} />
       ) : (
         <div
-          onClick={() => setIsCreating(true)}
+          onClick={handleStartCreate}
           className="flex items-center gap-3 p-3 border border-dashed rounded-sm cursor-pointer hover:bg-secondary/50 transition-colors text-muted-foreground"
         >
           <FiPlusSquare className="text-blue-500 w-5 h-5" />
@@ -59,7 +69,7 @@ export const TaskList = () => {
               />
             ) : (
               <div
-                onClick={() => setEditingId(task.id)}
+                onClick={() => handleStartEdit(task.id)}
                 className="flex gap-3 p-3 border rounded-sm bg-card hover:bg-gray-200 shadow-sm transition-all cursor-pointer items-center"
               >
                 <Checkbox onClick={e => e.stopPropagation()} />
