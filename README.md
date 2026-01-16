@@ -37,6 +37,26 @@ The project leverages a **Utility-First** approach combined with highly accessib
 
 ---
 
+## 🏗️ Architecture & Patterns
+
+The application is architected to minimize technical debt and maximize testability:
+
+* **Component-Driven Development (CDD):** Building UIs from the bottom up, starting with atomic components and validating them in isolation.
+* **Page Object Model (POM):** Used in Playwright E2E tests to decouple test logic from UI selectors, making the suite resilient to design changes.
+* **Persistence Layer:** Robust integration with `localStorage` for data persistence, managed via custom React hooks to ensure state synchronization.
+* **Rich Text Parsing:** Extensible logic for real-time detection and rendering of specialized badges (mentions, hashtags, links, and emails) within task descriptions.
+
+---
+
+## 📕 Component Documentation & Visual Testing
+
+We use **Storybook** to document and develop components in isolation. This ensures UI consistency and allows for visual regression testing.
+
+* **View Stories:** Run `pnpm storybook` to launch the local documentation server.
+* **Integrated Testing:** Storybook interaction tests are automatically validated during the unit testing phase via `@storybook/addon-vitest`.
+
+---
+
 ## ⚙️ Getting Started
 
 To run the project locally, ensure you have **Node.js 20+** and **pnpm** installed.
@@ -47,7 +67,7 @@ To run the project locally, ensure you have **Node.js 20+** and **pnpm** install
     ```
 2.  **Install Playwright Browsers:**
     ```bash
-    pnpm exec playwright install
+    pnpm exec playwright install chromium --with-deps
     ```
 3.  **Setup Git Hooks:**
     ```bash
@@ -64,26 +84,27 @@ To run the project locally, ensure you have **Node.js 20+** and **pnpm** install
 
 The project follows the testing pyramid to ensure software stability:
 
-* **Unit Tests:** Handled by Vitest, located in `tests/unit/`.
+* **Unit & Integration Tests:** Handled by Vitest. This includes browser-mode testing for Storybook stories.
     ```bash
     pnpm run test:unit
     ```
-* **E2E Tests:** Validating real-world user flows using Playwright in `tests/e2e/`.
+* **E2E Tests:** Validating real-world user flows (CRUD operations) using Playwright.
     ```bash
     pnpm run test:e2e
     ```
 
 ---
 
-## 🚀 CI/CD Pipeline
+## 🚀 CI/CD & Deployment
 
-The continuous integration workflow defined in `.github/workflows/main.yml` ensures code quality on every `Push` or `Pull Request`:
+The continuous integration and deployment workflow ensures code quality on every push:
 
-1.  **Setup:** pnpm caching enabled for ultra-fast installations.
-2.  **Linting & Type Checking:** Strict validation to ensure code integrity.
-3.  **Test Execution:** Running both unit and E2E suites in a headless environment.
-4.  **Production Build:** Generating optimized assets via Vite + Lightning CSS.
-5.  **Lighthouse Audit:** The pipeline will **automatically fail** if the production build scores below **85%** in key metrics: Performance, Accessibility, Best Practices, and SEO.
+1.  **Automated Quality Gate:** Linting, type-checking, and full test suite execution (Unit + Storybook Tests).
+2.  **Headless E2E:** Running Playwright flows in a Linux environment.
+3.  **Production Build:** Optimized asset generation via Vite.
+4.  **Automated Deployment:** Successful builds on the `main` branch are automatically deployed to **GitHub Pages**.
+
+**Live Demo:** [View Project Live](https://ezequielbrito99.github.io/CubanEngineer-TaskList/)
 
 ---
 
@@ -97,6 +118,7 @@ To maintain a clean and readable history, **Commitlint** is enforced. Messages m
 * `docs`: Documentation only changes.
 * `refactor`: A code change that neither fixes a bug nor adds a feature.
 * `test`: Adding missing tests or correcting existing tests.
+* `chore`: Add settings that do not affect the business logic.
 
 ---
 
